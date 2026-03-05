@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Proveedores</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; }
+        table { width: 80%; margin: 20px auto; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background: #2c3e50; color: white; }
+        a { text-decoration: none; padding: 5px 10px; background: #3498db; color: white; border-radius: 5px; }
+        .btn-danger { background: #e74c3c; }
+        .container { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Lista de Proveedores</h2>
+    <a th:href="@{/proveedores/nuevo}">Nuevo Proveedor</a>
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Acciones</th>
+    </tr>
+
+    <tr th:each="p : ${proveedores}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.nombre}"></td>
+        <td th:text="${p.direccion}"></td>
+        <td th:text="${p.telefono}"></td>
+        <td th:text="${p.email}"></td>
+        <td>
+            <a th:href="@{/proveedores/editar/{id}(id=${p.id})}">Editar</a>
+            <a class="btn-danger" th:href="@{/proveedores/eliminar/{id}(id=${p.id})}">Eliminar</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

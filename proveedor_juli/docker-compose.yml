@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: proveedor_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: proveedor
+      MYSQL_USER: juli
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: root1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - proveedor_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "juli", "-p1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: proveedor_juli_app
+    restart: on-failure
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/proveedor
+      SPRING_DATASOURCE_USERNAME: juli
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - proveedor_net
+
+volumes:
+  mysql_data:
+
+networks:
+  proveedor_net:
+    driver: bridge

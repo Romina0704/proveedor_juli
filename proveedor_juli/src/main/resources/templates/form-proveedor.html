@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario Proveedor</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; }
+        form { width: 400px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; }
+        input { width: 100%; padding: 8px; margin: 8px 0; }
+        button { padding: 8px 15px; background: #2ecc71; color: white; border: none; }
+    </style>
+</head>
+<body>
+
+<form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required />
+
+    <label>Dirección:</label>
+    <input type="text" th:field="*{direccion}" />
+
+    <label>Teléfono:</label>
+    <input type="text" th:field="*{telefono}" />
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" />
+
+    <button type="submit">Guardar</button>
+</form>
+
+</body>
+</html>
