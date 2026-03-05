@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proveedor-juli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proveedor-juli
+  template:
+    metadata:
+      labels:
+        app: proveedor-juli
+    spec:
+      containers:
+      - name: proveedor-juli
+        image: proveedorjuliacr.azurecr.io/proveedor_juli:latest
+        ports:
+        - containerPort: 8082
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql:3306/proveedor"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "juli"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "1234"
